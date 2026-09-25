@@ -78,25 +78,43 @@ public class TestCaseAlmosafer {
 	}
 	@Test(priority=7)
 	public void RandomlyChangeThelanguage() throws InterruptedException {
-		
+		String [] EnglishCitiesName= {"jeddah","riyadh","dubai"};
+		String [] ArabicCitiesName= {"جدة","رياض"};
+        
+		int RandomEnglishCity=rand.nextInt(EnglishCitiesName.length);
+		int RandomArabicCity=rand.nextInt(ArabicCitiesName.length);
+	
 		String ArabicWebSite="https://www.almosafer.com/ar";
 		String EnglishWebSite="https://www.almosafer.com/en";
 		String [] MyWebSite= {ArabicWebSite,EnglishWebSite};
 		int RandomIndex =rand.nextInt(MyWebSite.length);
 		driver.get(MyWebSite[RandomIndex]);
-		
-		Thread.sleep(2000);
+
+		WebElement HotelTab=driver.findElement(By.cssSelector("body > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2)"));
+		HotelTab.click();
+
+		WebElement HotalSearchBar=driver.findElement(By.id("DesktopSearchWidget_Destination_InputField_Test_Id"));
 		if(driver.getCurrentUrl().contains("ar")) {
 			String ActualLanguage =	driver.findElement(By.tagName("html")).getAttribute("lang");
 		    String ExpectedLanguage="ar";
 		    Assert.assertEquals(ActualLanguage, ExpectedLanguage);
+
+		    HotalSearchBar.sendKeys(ArabicCitiesName[RandomArabicCity]);
+		    
 		}else
 		{
 			String ActualLanguage =	driver.findElement(By.tagName("html")).getAttribute("lang");
 		    String ExpectedLanguage="en";
 		    Assert.assertEquals(ActualLanguage, ExpectedLanguage);
+
+		    HotalSearchBar.sendKeys(EnglishCitiesName[RandomEnglishCity]);
 		}
+		
+		
+		
 	}
+	@Test(priority=8)
+	public void SwitchToHotelSearchTab() {}
 	
 	@AfterTest
     public void SetUp() {
