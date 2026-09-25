@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.time.LocalDate;
+import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +14,7 @@ import org.testng.annotations.Test;
 public class TestCaseAlmosafer {
 	WebDriver driver =new ChromeDriver();
 	String MyWebSite="https://www.almosafer.com/en";
-
+    Random rand=new Random();
 	
 	@BeforeTest
 	public void MySetup() {
@@ -75,9 +76,26 @@ public class TestCaseAlmosafer {
         String expectedReturnDate=Integer.toString(DayAfterTomorrow);
         Assert.assertEquals(ActualReturnDate, expectedReturnDate);
 	}
-	@Test(priority=57)
-	public void z() {
+	@Test(priority=7)
+	public void RandomlyChangeThelanguage() throws InterruptedException {
 		
+		String ArabicWebSite="https://www.almosafer.com/ar";
+		String EnglishWebSite="https://www.almosafer.com/en";
+		String [] MyWebSite= {ArabicWebSite,EnglishWebSite};
+		int RandomIndex =rand.nextInt(MyWebSite.length);
+		driver.get(MyWebSite[RandomIndex]);
+		
+		Thread.sleep(2000);
+		if(driver.getCurrentUrl().contains("ar")) {
+			String ActualLanguage =	driver.findElement(By.tagName("html")).getAttribute("lang");
+		    String ExpectedLanguage="ar";
+		    Assert.assertEquals(ActualLanguage, ExpectedLanguage);
+		}else
+		{
+			String ActualLanguage =	driver.findElement(By.tagName("html")).getAttribute("lang");
+		    String ExpectedLanguage="en";
+		    Assert.assertEquals(ActualLanguage, ExpectedLanguage);
+		}
 	}
 	
 	@AfterTest
