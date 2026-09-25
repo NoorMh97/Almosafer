@@ -1,4 +1,5 @@
 import java.time.Duration;
+import java.time.LocalDate;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -48,13 +49,34 @@ public class TestCaseAlmosafer {
 	}
 	@Test(priority=4)
 	public void CheckQitafLogo() {
-		Boolean ActualLogo =driver.findElement(By.xpath("//img[@alt='qitaf']")).isDisplayed();
+		WebElement TheFooter=driver.findElement(By.tagName("footer"));
+		Boolean ActualLogo =TheFooter.findElement(By.xpath("//img[@alt='qitaf']")).isDisplayed();
 		Boolean ExpectedLogo=true;  
 		
 	    Assert.assertEquals(ActualLogo, ExpectedLogo);
 	}
 	@Test(priority=5)
-	public void Z() {
+	public void CheckDepatureDate()  {
+		int Today =LocalDate.now().getDayOfMonth();
+		int Tomorrow =LocalDate.now().plusDays(1).getDayOfMonth();
+		int DayAfterTomorrow =LocalDate.now().plusDays(2).getDayOfMonth();
+        
+        //split قسم النص بعد كل space 0 1 2 3 
+        String ActualDepatureDate=driver.findElement(By.id("testIdPickerPrefix__DatePicker__DepartureDate")).getAttribute("value").split(" ")[1];
+        //int actualDepatureDate=Integer.parseInt(DepatureDate);
+        String expectedDepatureDate=Integer.toString(Tomorrow);
+        Assert.assertEquals(ActualDepatureDate, expectedDepatureDate);
+	}
+	@Test(priority=6)
+	public void CheckReturnDate() {
+		int DayAfterTomorrow =LocalDate.now().plusDays(2).getDayOfMonth();
+        
+        String ActualReturnDate=driver.findElement(By.id("testIdPickerPrefix__DatePicker__ArrivalDate")).getAttribute("value").split(" ")[1];
+        String expectedReturnDate=Integer.toString(DayAfterTomorrow);
+        Assert.assertEquals(ActualReturnDate, expectedReturnDate);
+	}
+	@Test(priority=57)
+	public void z() {
 		
 	}
 	
